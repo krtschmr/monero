@@ -31,6 +31,9 @@ module Monero
       raise ArgumentError unless ["mnemonic", "view_key"].include?(type.to_s)
       Monero::Client.request("query_key", {key_type: type})["key"]
     end
+    def self.view_key; query_key(:view_key); end
+    def self.mnemonic_seed; query_key(:mnemonic); end
+
 
     def self.make_integrated_address(payment_id = "")
       # TODO
@@ -49,6 +52,30 @@ module Monero
       # TODO
       # make it a Monero::Payment that hase a amount as XMR and confirmations (getheight - tx.block_height)
       payments.map{|x| Payment.from_raw(x) }
+    end
+
+
+      # in - boolean;
+      # out - boolean;
+      # pending - boolean;
+      # failed - boolean;
+      # pool - boolean;
+      # filter_by_height - boolean;
+      # min_height - unsigned int;
+      # max_height - unsigned int;
+    def self.get_transfers(args={})
+      f_in = args.fetch(:in, true)
+      out = args.fetch(:out, false)
+      pending = args.fetch(:pending, true)
+      failed = args.fetch(:failed, false)
+      pool = args.fetch(:pool, true)
+      filter_by_height = args.fetch(:filter_by_height, false)
+      min_height = args.fetch(:min_height, 0)
+      max_height = args.fetch(:max_height, 0)
+
+      options = {in: f_in, out: out, pending: pending, failed: failed, pool: pool, filter_by_height: filter_by_height, min_height: min_height, max_height: max_height}
+
+      Monero::Client.request("get_transfers", options)
     end
 
     def self.get_transfer_by_txid(txid)

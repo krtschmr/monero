@@ -4,6 +4,7 @@ require 'monero/payment'
 require 'monero/client'
 require 'monero/version'
 require 'monero/wallet'
+require 'monero/transfer'
 
 module Monero
   def self.config

@@ -1,15 +1,9 @@
 module Monero
   class Client
 
-    def self.request(method, params=nil)
-      params_string = ""
-      if params
-        # TODO multi params looping
-        k,v = params.first
-        params_string = '"'+k.to_s+'": "'+v.to_s+'"'
-      end
-
-      data = '{"jsonrpc":"2.0","id":"0","method": "'+method+'", "params": { '+params_string+' } }'
+    def self.request(method, params="")
+      data = '{"jsonrpc":"2.0","id":"0","method": "'+method+'", "params": '+params.to_json+' }'
+      
       args = " -s"
       args << " -u #{Monero.config.username}:#{Monero.config.password} --digest"
       args << " -X POST #{base_uri}/json_rpc"
@@ -26,5 +20,5 @@ module Monero
     end
 
   end
-  
+
 end
