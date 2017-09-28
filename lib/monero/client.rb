@@ -1,9 +1,17 @@
 module Monero
   class Client
 
+    def self.close!
+      request("stop_wallet")
+    end
+
     def self.request(method, params="")
-      data = '{"jsonrpc":"2.0","id":"0","method": "'+method+'", "params": '+params.to_json+' }'
+      # TODO
+      # logging
       
+
+      data = '{"jsonrpc":"2.0","id":"0","method": "'+method+'", "params": '+params.to_json+' }'
+
       args = " -s"
       args << " -u #{Monero.config.username}:#{Monero.config.password} --digest"
       args << " -X POST #{base_uri}/json_rpc"

@@ -82,6 +82,35 @@ module Monero
       Monero::Client.request("get_transfer_by_txid", {txid: txid })
     end
 
+    # creates a wallet and uses it
+    # if wallet exists, will automatically uses it!
+    def self.create_wallet(filename, password, language="English")
+      # TODO
+      # language correct format?
+      options = { filename: filename, password: password, language: language }
+      !! Monero::Client.request("create_wallet", options)
+    end
+    singleton_class.send(:alias_method, :create, :create_wallet)
+
+    # returns current balance if open successfull
+    def self.open_wallet(filename, password)
+      options = { filename: filename, password: password}
+      if Monero::Client.request("open_wallet", options)
+        balance
+      else
+        false
+      end
+    end
+    singleton_class.send(:alias_method, :open, :open_wallet)
+
+    # stops current wallet
+    def self.stop_wallet
+      Monero::Client.close!
+    end
+    singleton_class.send(:alias_method, :close, :stop_wallet)
+
+
+
   end
 
 end
