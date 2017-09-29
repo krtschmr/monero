@@ -6,10 +6,6 @@ module Monero
     end
 
     def self.request(method, params="")
-      # TODO
-      # logging
-      
-
       data = '{"jsonrpc":"2.0","id":"0","method": "'+method+'", "params": '+params.to_json+' }'
 
       args = " -s"
@@ -17,6 +13,9 @@ module Monero
       args << " -X POST #{base_uri}/json_rpc"
       args << " -d '#{data}'"
       args << " -H 'Content-Type: application/json'"
+
+      p "curl #{args}" if Monero.config.debug
+
       json = JSON.parse(`curl #{args}`)
       json["result"]
     end

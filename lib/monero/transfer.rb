@@ -43,7 +43,10 @@ module Monero
       get_tx_hex = args.fetch(:get_tx_hex, false)
 
 
-      options = { destinations: destinations, fee: fee, mixin: mixin, unlock_time: unlock_time, payment_id: payment_id, get_tx_key: get_tx_key, priority: priority, do_not_relay: false, get_tx_hex: true}
+      options = {
+        destinations: destinations, fee: fee, mixin: mixin, unlock_time: unlock_time, 
+        payment_id: payment_id, get_tx_key: get_tx_key, priority: priority, do_not_relay: do_not_relay, get_tx_hex: get_tx_hex
+      }
 
       Monero::Client.request("transfer", options)
     end
