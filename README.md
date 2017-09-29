@@ -67,6 +67,18 @@ To get the balance of the current wallet (we use the gem 'money')
     Monero::Wallet.balance.format
     => "9.980629640000 XMR"
 
+To get the unlocked balance, which is currently available
+
+    Monero::Wallet.unlocked_balance
+    => #<Money fractional:10000 currency:XMR>
+
+To get both combined
+
+    Monero::Wallet.getbalance
+    => {"balance"=>9961213880000, "unlocked_balance"=>10000}
+
+
+
 ___
 To get the current block height
 
