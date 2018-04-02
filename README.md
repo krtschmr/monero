@@ -1,3 +1,5 @@
+*updating and testing for 0.12 soon*
+
 # Monero Ruby Client
 
 Ruby client to connect and use [Monero Wallet RPC](https://getmonero.org/resources/developer-guides/wallet-rpc.html).
