@@ -24,7 +24,7 @@ For easy installation add `gem 'monero'` to your Gemfile or run `gem install mon
 
 Start your daemon `./monerod --testnet`
 
-Start your RPC Client `./monero-wallet-rpc --testnet  --rpc-bind-port 18081 --rpc-bind-ip 127.0.0.1  --rpc-login username:password --log-level 4 --wallet-dir ./`
+Start your RPC Client `./monero-wallet-rpc --testnet  --rpc-bind-port 18081 --rpc-bind-ip 127.0.0.1  --rpc-login username:password --log-level 4`
 
 - To open a wallet at start use `--wallet-file filename` and `--password pass`
 - In case you need to access the client from another machine, you need to set `--confirm-external-bind`.
