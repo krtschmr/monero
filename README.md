@@ -1,4 +1,4 @@
-*updating and testing for 0.12 soon*
+*updating and testing for 0.12 ~~soon~~ in progress*
 
 # Monero Ruby Client
 
