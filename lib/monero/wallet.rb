@@ -6,10 +6,14 @@ module Monero
       Monero::Client.request("create_address", label: label)
     end
 
-    def self.getaddress
-      Monero::Client.request("getaddress")["address"]
+    def self.get_address
+      Monero::Client.request("get_address")["address"]
     end
     def self.address; getaddress; end
+
+    def self.get_addresses
+      Monero::Client.request("get_address")["addresses"]
+    end
 
     def self.getbalance
       Monero::Client.request("getbalance")
