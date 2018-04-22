@@ -2,6 +2,10 @@ module Monero
 
   class Wallet
 
+    def self.create_address(label)
+      Monero::Client.request("create_address", label: label)
+    end
+
     def self.getaddress
       Monero::Client.request("getaddress")["address"]
     end
@@ -93,7 +97,7 @@ module Monero
     singleton_class.send(:alias_method, :create, :create_wallet)
 
     # returns current balance if open successfull
-    def self.open_wallet(filename, password)
+    def self.open_wallet(filename, password="")
       options = { filename: filename, password: password}
       if Monero::Client.request("open_wallet", options)
         balance
@@ -103,7 +107,7 @@ module Monero
     end
     singleton_class.send(:alias_method, :open, :open_wallet)
 
-    # stops current wallet
+    # stops current RPC process!
     def self.stop_wallet
       Monero::Client.close!
     end
