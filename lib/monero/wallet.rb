@@ -2,7 +2,7 @@ module Monero
 
   class Wallet
 
-    def self.create_address(label)
+    def self.create_address(label="")
       Monero::Client.request("create_address", label: label)
     end
 
