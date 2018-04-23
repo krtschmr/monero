@@ -1,4 +1,4 @@
-module Monero
+module RPC
   class Client
     #class RequestError < StandardError; end
 
@@ -12,12 +12,12 @@ module Monero
 
       args = ""
       args << " -s"
-      args << " -u #{Monero.config.username}:#{Monero.config.password} --digest"
+      args << " -u #{RPC.config.username}:#{RPC.config.password} --digest"
       args << " -X POST #{base_uri}/json_rpc"
       args << " -d '#{data}'"
       args << " -H 'Content-Type: application/json'"
 
-      p "curl #{args}" if Monero.config.debug
+      p "curl #{args}" if RPC.config.debug
 
       json = JSON.parse(`curl #{args}`)
 
@@ -32,7 +32,7 @@ module Monero
     private
 
     def self.base_uri
-      "http://#{Monero.config.host}:#{Monero.config.port}"
+      "http://#{RPC.config.host}:#{RPC.config.port}"
     end
 
   end

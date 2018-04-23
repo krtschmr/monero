@@ -22,7 +22,7 @@
 # get_tx_hex - boolean; Return the transaction as hex string after sending
 
 
-module Monero
+module RPC
   # => {"integrated_address"=>"A7TmpAyaPeZLnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjfwGRvbCHYCZAaKSzDx", "payment_id"=>"c7e7146b3335aa54"}
 
   class Transfer
@@ -48,7 +48,7 @@ module Monero
         payment_id: payment_id, get_tx_key: get_tx_key, priority: priority, do_not_relay: do_not_relay, get_tx_hex: get_tx_hex
       }
 
-      Monero::Client.request("transfer", options)
+      RPC::Client.request("transfer", options)
     end
 
   end

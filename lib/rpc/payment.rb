@@ -1,4 +1,4 @@
-module Monero
+module RPC
 
   class Payment
   end
