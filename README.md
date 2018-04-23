@@ -34,10 +34,10 @@ Start your RPC Client `./monero-wallet-rpc --testnet  --rpc-bind-port 18081 --rp
 ## Getting started
 
 ### Configuration
-    Monero.config.host = "127.0.0.1"
-    Monero.config.port = "18081"
-    Monero.config.username = "username"
-    Monero.config.password = "password"
+    RPC.config.host = "127.0.0.1"
+    RPC.config.port = "18081"
+    RPC.config.username = "username"
+    RPC.config.password = "password"
 
 
 
@@ -50,33 +50,33 @@ ___
 
 Get the current address
 
-    Monero::Wallet.address
+    RPC::Wallet.address
 	=> "9wm6oNA5nP3LnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjTDpKXAE"
 ___
 
 Create a new address for a payment (integrated address)
 
-	Monero::Wallet.make_integrated_address
+	RPC::Wallet.make_integrated_address
 	=> {"integrated_address"=>"A7TmpAyaPeZLnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjfufSYUchQ8hH2R272H",
  	"payment_id"=>"9d985c985ce58a8e"}
 ___
 To get the balance of the current wallet (we use the gem 'money')
 
-    Monero::Wallet.balance
+    RPC::Wallet.balance
     # returns an ::XMR object which is just a shortcut for ::Money(amount, :xmr)
     => #<Money fractional:9980629640000 currency:XMR>
 
-    Monero::Wallet.balance.format
+    RPC::Wallet.balance.format
     => "9.980629640000 XMR"
 
 To get the unlocked balance, which is currently available
 
-    Monero::Wallet.unlocked_balance
+    RPC::Wallet.unlocked_balance
     => #<Money fractional:10000 currency:XMR>
 
 To get both combined
 
-    Monero::Wallet.getbalance
+    RPC::Wallet.getbalance
     => {"balance"=>9961213880000, "unlocked_balance"=>10000}
 
 
@@ -84,16 +84,16 @@ To get both combined
 ___
 To get the current block height
 
-    Monero::Wallet.getheight
+    RPC::Wallet.getheight
     => 1008032
 
 
 ___
 
-Send XMR to an address via `Monero::Transfer.create`. If successfull you will get the transaction  details. If not succesfull you'll get returned nil.
+Send XMR to an address via `RPC::Transfer.create`. If successfull you will get the transaction  details. If not succesfull you'll get returned nil.
 
     amount= 20075 #in atomic units. 1000000000000 == 1.0 XMR    
-    Monero::Transfer.create("A7TmpAyaPeZLnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjfwGRvbCHYCZAaKSzDx", amount)
+    RPC::Transfer.create("A7TmpAyaPeZLnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjfwGRvbCHYCZAaKSzDx", amount)
 	=> {"fee"=>19415760000,
  		"tx_blob"=>"020001020005bbcf0896e3.......
 
@@ -112,7 +112,7 @@ To send payments to multiple recipients simply use an array of `[:recipient, :am
     	{address:A7TmpAyaPeZLnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjfrgPgAEasYGSVhUdwe amount: 442130000}
     ]
 
-    Monero::Transfer.send_bulk(recipients, options)
+    RPC::Transfer.send_bulk(recipients, options)
 
 ___
 

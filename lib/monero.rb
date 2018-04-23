@@ -1,20 +1,16 @@
 require 'money'
-require 'monero/config'
-require 'monero/payment'
-require 'monero/client'
-require 'monero/version'
-require 'monero/wallet'
-require 'monero/transfer'
+require 'rpc/config'
+require 'rpc/payment'
+require 'rpc/client'
+require 'rpc/version'
+require 'rpc/wallet'
+require 'rpc/transfer'
 
-module Monero
+module RPC
   def self.config
-    @@config ||= Monero::Config.instance
+    @@config ||= RPC::Config.instance
   end
 end
-
-# ActiveSupport.on_load(:active_record) do
-#   include Monero::Model
-# end
 
 Money::Currency.register({ :priority            => 1, :iso_code            => "xmr", :iso_numeric         => "846", :name                => "Monero", :symbol              => "XMR", :subunit             => "", :subunit_to_unit     => 1000000000000, :decimal_mark        => ".", :thousands_separator => ""})
 #
