@@ -38,6 +38,8 @@ Start your RPC Client `./monero-wallet-rpc --testnet  --rpc-bind-port 18081 --rp
     RPC.config.port = "18081"
     RPC.config.username = "username"
     RPC.config.password = "password"
+    RPC.config.transfer_clazz = "MoneroTransfer" # you can set your own class to get incoming transfers as a model rather then a json
+
 
 
 
@@ -113,6 +115,31 @@ To send payments to multiple recipients simply use an array of `[:recipient, :am
     ]
 
     RPC::Transfer.send_bulk(recipients, options)
+
+
+To get all incoming transfers use `get_all_incoming_transfers(args)`. Args can be `min_height` and `max_height` to filter accordingly. Result is a list of `RPC::IncomingTransfer` objects.
+
+    incomes = RPC::Wallet.get_all_incoming_transfers(min_height: 1087400)
+    => [#<RPC::IncomingTransfer:0x000000036d3ca8 ...>, #<RPC::IncomingTransfer:0x000000036d38c0 ...>, #<RPC::IncomingTransfer:0x000000036d3258 ...>, #<RPC::IncomingTransfer:0x000000036d2c90 ...> ....
+
+    incomes.first.confirmed?
+    => false
+
+    incomes.first.pending?
+    => true
+
+    incomes.first.confirmations?
+    => 0
+
+    incomes.first.address
+    => "9vN5sHeH2a6AbRsB1dZ3APavL3YyFLguhh5pu2cAHb4CTY9GtnsEsBYTzwxzL6XH4Uby2Svju8sYvZN7mDMcd6MTKDvBgVR"
+
+    incomes.first.amount
+    => 0.40123
+
+You can use your own custom class by using the config `RPC.config.transfer_clazz = "MyCustomMoneroTransfer"`
+
+
 
 ___
 

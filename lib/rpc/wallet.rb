@@ -81,9 +81,23 @@ module RPC
       min_height = args.fetch(:min_height, 0)
       max_height = args.fetch(:max_height, 0)
 
-      options = {in: f_in, out: out, pending: pending, failed: failed, pool: pool, filter_by_height: filter_by_height, min_height: min_height, max_height: max_height}
+      options = {in: f_in, out: out, pending: pending, failed: failed, pool: pool, filter_by_height: filter_by_height, min_height: min_height}
+      options[:max_height] = max_height if max_height > min_height
 
-      RPC::Client.request("get_transfers", options)
+      h = Hash.new
+      json = RPC::Client.request("get_transfers", options)
+      json.map{|k, v|
+        h[k] = v.collect{|transfer| (RPC.config.transfer_clazz || "RPC::IncomingTransfer").constantize.new(transfer)}
+      }
+      return h
+    end
+
+    def self.get_all_incoming_transfers(args={})
+      min_height = args.fetch(:min_height, 0)
+      max_height = args.fetch(:max_height, 0)
+
+      all = get_transfers(filter_by_height: true, min_height: min_height, max_height: max_height, in: true, out: false, pending: true, pool: true)
+      [ all["in"], all["pending"], all["pool"]].flatten.compact
     end
 
     def self.get_transfer_by_txid(txid)

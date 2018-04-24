@@ -5,10 +5,11 @@ require 'rpc/client'
 require 'rpc/version'
 require 'rpc/wallet'
 require 'rpc/transfer'
+require 'rpc/incoming_transfer'
 
 module RPC
   def self.config
-    @@config ||= RPC::Config.instance
+    @@config ||= RPC::Config.instance    
   end
 end
 
