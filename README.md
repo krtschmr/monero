@@ -147,11 +147,9 @@ ___
 ## Donations
 If this was useful you might consider a small donation:
 
-- XMR: 4H19KAdSw1pL2v1iaEx31ngQCQcEGobUpevqtzSzKPTAEAt1Ay7NZrQgU6mnN2mVyWi7yk2ig68KsU8bfXQ45ainLTZFWU7m94yT3D9qUX
-- BTC:
-- LTC:
+- XMR: 48ie1HGrxvp4PE8DwSaKSSJtwnwAWitsE6U3oiybsa9VVrywayMJJZpMx1MvqJfxihBv9cnriufv5KXWd45xVQCrPAjkFBR
 
-
+Even better would be your contribution to the code. Let's work together and make this gem a great place for all Monero fans! Don't just fork and do your own thing. My idea for this gem isn't the way we have to do. Feel free to bring yourself into this project. I'm willing to change everything from scratch if it will benefit the future.
 
 
 ## LICENSE
