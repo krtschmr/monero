@@ -41,8 +41,6 @@ Start your RPC Client `./monero-wallet-rpc --testnet  --rpc-bind-port 18081 --rp
     RPC.config.transfer_clazz = "MoneroTransfer" # you can set your own class to get incoming transfers as a model rather then a json
 
 
-
-
 ### Usage
 
 Monero Ruby Client is very easy to use. Full documentation of RPC Client: https://getmonero.org/resources/developer-guides/wallet-rpc.html#transfer
@@ -54,6 +52,14 @@ Get the current address
 
     RPC::Wallet.address
 	=> "9wm6oNA5nP3LnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjTDpKXAE"
+
+___
+
+Create a new Subaddress with a label
+
+  RPC::Wallet.create_address "family savings"
+  => {"address"=>"BZFWM5MrhK64DD5TH1JVxR4JbuQpmRSFKi4SHQD2TrSrDFU8AK16YSjN7K8WSfjAfnZeJeskBtkgr73LbPZc4vMbQr3YvHj", "address_index"=>1}
+
 ___
 
 Create a new address for a payment (integrated address)
@@ -61,7 +67,15 @@ Create a new address for a payment (integrated address)
 	RPC::Wallet.make_integrated_address
 	=> {"integrated_address"=>"A7TmpAyaPeZLnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjfufSYUchQ8hH2R272H",
  	"payment_id"=>"9d985c985ce58a8e"}
+  ___
+
+Get a list of all Adresses of your wallet
+
+  RPC::Wallet.get_addresses
+
 ___
+
+
 To get the balance of the current wallet (we use the gem 'money')
 
     RPC::Wallet.balance
