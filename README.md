@@ -1,4 +1,4 @@
-*updating and testing for 0.12 ~~soon~~ in progress*
+*Heavy development. Tested against 0.12.0 without issues. Please contribute. If you want to send Testnet transactions, please always send them back to https://dis.gratis*
 
 # Monero Ruby Client
 
@@ -116,6 +116,12 @@ To send payments to multiple recipients simply use an array of `[:recipient, :am
 
     RPC::Transfer.send_bulk(recipients, options)
 
+___
+
+
+To get a list of transfers you call `get_transfers(args)`. Options are `in (true)`, `out (false)`, `pending (true)`, `failed (false)`, `pool (true)`, `filter_by_height (false)`, `min_height` and `max_height`
+
+___
 
 To get all incoming transfers use `get_all_incoming_transfers(args)`. Args can be `min_height` and `max_height` to filter accordingly. Result is a list of `RPC::IncomingTransfer` objects.
 
@@ -139,9 +145,12 @@ To get all incoming transfers use `get_all_incoming_transfers(args)`. Args can b
 
 You can use your own custom class by using the config `RPC.config.transfer_clazz = "MyCustomMoneroTransfer"`
 
+___
 
+For a specific Transfer simply call `get_transfer_by_txid(tx_id)`
 
 ___
+
 
 
 ## Donations
