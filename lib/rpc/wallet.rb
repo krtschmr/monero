@@ -9,6 +9,7 @@ module RPC
     def self.get_address
       RPC::Client.request("get_address")["address"]
     end
+
     def self.address; getaddress; end
 
     def self.get_addresses
@@ -49,6 +50,10 @@ module RPC
       RPC::Client.request("make_integrated_address", {payment_id: payment_id})
     end
 
+    def self.split_integrated_address(address)
+      RPC::Client.request("split_integrated_address", {integrated_address: address})
+    end
+
     def self.incoming_transfers(type)
       raise ArgumentError unless ["all", "available", "unavailable"].include?(type.to_s)
       json = RPC::Client.request("incoming_transfers", {transfer_type: type})
@@ -60,6 +65,11 @@ module RPC
       # TODO
       # make it a RPC::Payment that hase a amount as XMR and confirmations (getheight - tx.block_height)
       payments.map{|x| Payment.from_raw(x) }
+    end
+
+    def self.get_bulk_payments(payment_ids, min_block_height)
+      payments = RPC::Client.request("get_bulk_payments", {"payment_ids": payment_ids, "min_block_height": min_block_height})
+      return payments
     end
 
 
