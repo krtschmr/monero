@@ -57,8 +57,8 @@ ___
 
 Create a new Subaddress with a label
 
-  RPC::Wallet.create_address "family savings"
-  => {"address"=>"BZFWM5MrhK64DD5TH1JVxR4JbuQpmRSFKi4SHQD2TrSrDFU8AK16YSjN7K8WSfjAfnZeJeskBtkgr73LbPZc4vMbQr3YvHj", "address_index"=>1}
+    RPC::Wallet.create_address "family savings"
+    => {"address"=>"BZFWM5MrhK64DD5TH1JVxR4JbuQpmRSFKi4SHQD2TrSrDFU8AK16YSjN7K8WSfjAfnZeJeskBtkgr73LbPZc4vMbQr3YvHj", "address_index"=>1}
 
 ___
 
