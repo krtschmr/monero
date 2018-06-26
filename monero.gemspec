@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.required_rubygems_version = '>= 1.3.6'
 
   spec.add_dependency "money"
+  spec.add_dependency "activesupport"
 end
