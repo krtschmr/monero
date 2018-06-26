@@ -71,7 +71,7 @@ Create a new address for a payment (integrated address)
 
 Get a list of all Adresses of your wallet
 
-  RPC::Wallet.get_addresses
+    RPC::Wallet.get_addresses
 
 ___
 
