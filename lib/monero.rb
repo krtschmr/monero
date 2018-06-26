@@ -1,4 +1,6 @@
 require 'money'
+require 'active_support'
+require 'active_support/core_ext'
 require 'rpc/config'
 require 'rpc/payment'
 require 'rpc/client'
