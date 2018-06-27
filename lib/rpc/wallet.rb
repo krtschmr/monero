@@ -97,7 +97,7 @@ module RPC
       h = Hash.new
       json = RPC::Client.request("get_transfers", options)
       json.map{|k, v|
-        h[k] = v.collect{|transfer| (RPC.config.transfer_clazz || "RPC::IncomingTransfer").constantize.new(transfer)}
+        h[k] = v.collect{|transfer| Module.const_get((RPC.config.transfer_clazz || "RPC::IncomingTransfer")).new(transfer) }
       }
       return h
     end
