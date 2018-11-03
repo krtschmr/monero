@@ -174,6 +174,6 @@ If this was useful you might consider a small donation:
 
 Even better would be your contribution to the code. Let's work together and make this gem a great place for all Monero fans! Don't just fork and do your own thing. My idea for this gem isn't the way we have to do. Feel free to bring yourself into this project. I'm willing to change everything from scratch if it will benefit the future.
 
-
-## LICENSE
-MIT
+## License
+This gem is available as open source under the terms of the [MIT
+License](https://opensource.org/licenses/MIT).
