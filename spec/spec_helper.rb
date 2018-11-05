@@ -11,4 +11,11 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  # configure the RPC singleton
+  RPC.config.host = "changeme"
+  RPC.config.port = "38083"
+  RPC.config.username = "changeme"
+  RPC.config.password = "changeme"
+  RPC.config.transfer_clazz = "MoneroTransfer"
 end
