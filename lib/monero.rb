@@ -31,3 +31,7 @@ unless Object.const_defined?('XMR')
     def to_s; Money.new(amount, :xmr).format.to_s; end
   end
 end
+
+I18n.enforce_available_locales = false
+Money.locale_backend = :i18n
+I18n.locale = :en

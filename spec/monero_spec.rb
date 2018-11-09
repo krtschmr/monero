@@ -41,9 +41,10 @@ RSpec.describe RPC do
     expect(balance.currency).to be_a(Money::Currency)
   end
 
-  it "returns a formatted balance" do
+  it "returns a formatted balance with dot as decimal separator" do
     balance = RPC::Wallet.balance.format
     expect(balance).to be_a(String)
+    expect(balance).to include('.')
   end
 
   it "gets the unlocked balance" do
