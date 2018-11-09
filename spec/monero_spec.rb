@@ -65,9 +65,19 @@ RSpec.describe RPC do
     expect(height).to be_an(Integer)
   end
 
-  it "sends XMR to an address" do
-    pending("Needs to be written")
-    fail
+  # the wallet locks for approx 10 blocks so this test will fail
+  it "sends XMR to a standard address" do
+    subaddress = RPC::Wallet.create_address "receiving_wallet"
+    amount = 20075
+    transfer = RPC::Transfer.create(subaddress['address'], amount)
+    expect(transfer['amount']).to eq(amount)
+    expect(transfer['fee']).to be_an(Integer)
+    expect(transfer['multisig_txset']).to be_empty
+    expect(transfer['tx_blob']).to be_empty
+    expect(transfer['tx_hash']).to be_truthy
+    expect(transfer['tx_key']).to be_truthy
+    expect(transfer['tx_metadata']).to be_empty
+    expect(transfer['unsigned_txset']).to be_empty
   end
 
 end
