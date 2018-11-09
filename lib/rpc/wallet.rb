@@ -1,5 +1,4 @@
 module RPC
-
   class Wallet
 
     def self.create_address(label="")
@@ -141,8 +140,5 @@ module RPC
     end
     singleton_class.send(:alias_method, :close, :stop_wallet)
 
-
-
   end
-
 end
