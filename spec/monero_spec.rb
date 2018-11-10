@@ -65,12 +65,29 @@ RSpec.describe RPC do
     expect(height).to be_an(Integer)
   end
 
-  # the wallet locks for approx 10 blocks so this test will fail
+  # the wallet locks for approx 10 blocks so this test will fail if
+  # balance is not yet unlocked
   it "sends XMR to a standard address" do
     subaddress = RPC::Wallet.create_address "receiving_wallet"
     amount = 20075
     transfer = RPC::Transfer.create(subaddress['address'], amount)
     expect(transfer['amount']).to eq(amount)
+    expect(transfer['fee']).to be_an(Integer)
+    expect(transfer['multisig_txset']).to be_empty
+    expect(transfer['tx_blob']).to be_empty
+    expect(transfer['tx_hash']).to be_truthy
+    expect(transfer['tx_key']).to be_truthy
+    expect(transfer['tx_metadata']).to be_empty
+    expect(transfer['unsigned_txset']).to be_empty
+  end
+
+  it "sends XMR to multiple recipients" do
+    subaddress1 = RPC::Wallet.create_address "receiving_wallet"
+    subaddress2 = RPC::Wallet.create_address "receiving_wallet2"
+    amount1 = 20075
+    amount2 = 20075
+
+    expect(transfer['amount']).to eq(amount1+amount2)
     expect(transfer['fee']).to be_an(Integer)
     expect(transfer['multisig_txset']).to be_empty
     expect(transfer['tx_blob']).to be_empty
