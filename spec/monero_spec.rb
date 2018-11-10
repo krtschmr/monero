@@ -85,7 +85,14 @@ RSpec.describe RPC do
     subaddress1 = RPC::Wallet.create_address "receiving_wallet"
     subaddress2 = RPC::Wallet.create_address "receiving_wallet2"
     amount1 = 20075
-    amount2 = 20075
+    amount2 = 30075
+
+    recipients = [
+      { address: subaddress1['address'], amount: amount1 },
+      { address: subaddress2['address'], amount: amount2 }
+    ]
+
+    transfer = RPC::Transfer.send_bulk(recipients)
 
     expect(transfer['amount']).to eq(amount1+amount2)
     expect(transfer['fee']).to be_an(Integer)
