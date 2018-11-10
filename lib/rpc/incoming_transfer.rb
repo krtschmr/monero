@@ -1,7 +1,9 @@
 module RPC
   class IncomingTransfer
 
-    attr_accessor :address, :amount, :double_spend_seen, :fee, :height, :note, :payment_id, :subaddr_index, :timestamp, :txid, :type, :unlock_time, :destinations, :confirmations, :suggested_confirmations_threshold
+    attr_accessor :address, :amount, :double_spend_seen, :fee, :height, :note,
+      :payment_id, :subaddr_index, :timestamp, :txid, :type, :unlock_time,
+      :destinations, :confirmations, :suggested_confirmations_threshold
 
     def initialize(args={})
       args.each do |k,v|
@@ -18,5 +20,4 @@ module RPC
     end
 
   end
-
 end
