@@ -1,4 +1,4 @@
-*Heavy development. Tested against 0.12.0 without issues. Please contribute. If you want to send Testnet transactions, please always send them back to https://dis.gratis*
+*Heavy development. Tested against 0.13.0 without issues. Please contribute. If you want to send Testnet transactions, please always send them back to https://dis.gratis*
 
 # Monero Ruby Client
 
