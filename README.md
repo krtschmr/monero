@@ -171,6 +171,11 @@ You can use your own custom class by using the config `RPC.config.transfer_clazz
 For a specific Transfer simply call `get_transfer_by_txid(tx_id)`
 
 ---
+## Running tests
+
+Configure the RPC singleton in
+[spec_helper.rb](https://github.com/krtschmr/monero/blob/master/spec/spec_helper.rb)
+
 ## Donations
 If this was useful you might consider a small donation:
 
