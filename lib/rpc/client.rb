@@ -1,7 +1,5 @@
 module RPC
   class Client
-    #class RequestError < StandardError; end
-
 
     def self.close!
       request("stop_wallet")
@@ -36,5 +34,4 @@ module RPC
     end
 
   end
-
 end
