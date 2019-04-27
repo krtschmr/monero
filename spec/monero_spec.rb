@@ -104,4 +104,26 @@ RSpec.describe RPC do
     expect(transfer['unsigned_txset']).to be_empty
   end
 
+  it "initializes the monero client" do
+    monero_client = RPC::Client.new(
+      "mymonerohost.com",
+      "38083",
+      "username",
+      "password",
+      "MoneroTransfer",
+      true,
+      true
+    )
+
+    expect(monero_client.host).to eq("mymonerohost.com")
+    expect(monero_client.port).to eq("38083")
+    expect(monero_client.username).to eq("username")
+    expect(monero_client.password).to eq("password")
+    expect(monero_client.transfer_clazz).to eq("MoneroTransfer")
+    expect(monero_client.rpc).to eq(true)
+
+    debug = debug or RPC.config.debug
+    expect(monero_client.debug).to be_truthy
+  end
+
 end
