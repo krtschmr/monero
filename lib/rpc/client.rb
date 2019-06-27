@@ -1,5 +1,16 @@
 module RPC
   class Client
+    attr_reader :host, :port, :username, :password, :transfer_clazz, :rpc, :debug
+
+    def initialize(host, port, username, password, transfer_clazz, rpc=false, debug=false)
+      @host = host
+      @port = port
+      @username = username
+      @password = password
+      @transfer_clazz = transfer_clazz
+      @rpc = rpc
+      @debug = debug
+    end
 
     def self.close!
       request("stop_wallet")
@@ -10,12 +21,17 @@ module RPC
 
       args = ""
       args << " -s"
-      args << " -u #{RPC.config.username}:#{RPC.config.password} --digest"
-      args << " -X POST #{base_uri}/json_rpc"
+      if (rpc)
+        args << " -u #{RPC.config.username}:#{RPC.config.password} --digest"
+        args << " -X POST #{base_uri}/json_rpc"
+      else
+        args << " -u #{username}:#{password} --digest"
+        args << " -X POST #{uri}/json_rpc"
+      end
       args << " -d '#{data}'"
       args << " -H 'Content-Type: application/json'"
 
-      p "curl #{args}" if RPC.config.debug
+      p "curl #{args}" if debug or RPC.config.debug
 
       json = JSON.parse(`curl #{args}`)
 
@@ -27,10 +43,18 @@ module RPC
       json["result"]
     end
 
+    def rpc
+      @rpc || false
+    end
+
     private
 
     def self.base_uri
       "http://#{RPC.config.host}:#{RPC.config.port}"
+    end
+
+    def self.uri
+      "http://#{host}:#{port}"
     end
 
   end
