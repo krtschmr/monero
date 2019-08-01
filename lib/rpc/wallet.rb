@@ -5,8 +5,8 @@ module RPC
       RPC::Client.request("create_address", label: label)
     end
 
-    def self.get_address
-      RPC::Client.request("get_address")["address"]
+    def self.get_address(account_index=0, address_index=[0])
+      RPC::Client.request("get_address", {account_index: account_index, address_index: address_index})["address"]
     end
 
     def self.address; getaddress; end
