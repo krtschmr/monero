@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'rpc/version'
+require 'monero_rpc/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "monero"
-  spec.version       = RPC::VERSION
+  spec.version       = MoneroRPC::VERSION
   spec.authors       = ["Tim Kretschmer"]
   spec.email         = ["tim@krtschmr.de"]
   spec.description   = %q{A Monero-Wallet-RPC ruby client}

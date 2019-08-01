@@ -13,9 +13,9 @@ RSpec.configure do |config|
   end
 
   # configure the RPC singleton
-  RPC.config.host = "changeme"
-  RPC.config.port = "38083"
-  RPC.config.username = "changeme"
-  RPC.config.password = "changeme"
-  RPC.config.transfer_clazz = "MoneroTransfer"
+  MoneroRPC.config.host = "changeme"
+  MoneroRPC.config.port = "38083"
+  MoneroRPC.config.username = "changeme"
+  MoneroRPC.config.password = "changeme"
+  MoneroRPC.config.transfer_clazz = "MoneroTransfer"
 end

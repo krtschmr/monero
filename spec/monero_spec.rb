@@ -1,30 +1,30 @@
 require "spec_helper"
 
-RSpec.describe RPC do
+RSpec.describe MoneroRPC do
   it "has a version number" do
-    expect(RPC::VERSION).not_to be nil
+    expect(MoneroRPC::VERSION).not_to be nil
   end
 
   it "gets the current address" do
-    address = RPC::Wallet.address
+    address = MoneroRPC::Wallet.address
     expect(address.length).to be 95
   end
 
   it "creates a new subaddress with a label" do
-    subaddress = RPC::Wallet.create_address "wallet1"
+    subaddress = MoneroRPC::Wallet.create_address "wallet1"
     expect(subaddress['address'].length).to be 95
     expect(subaddress['address_index']).to be_truthy
   end
 
   it "creates an integrated address for a payment" do
-    address = RPC::Wallet.make_integrated_address
+    address = MoneroRPC::Wallet.make_integrated_address
     payment_id = address['payment_id']
     expect(address['integrated_address'].length).to be 106
     expect(payment_id.length).to be 16
   end
 
   it "lists all addresses of the wallet" do
-    addresses = RPC::Wallet.get_addresses
+    addresses = MoneroRPC::Wallet.get_addresses
     addresses.each do |adr|
       expect(adr['address']).to be_a(String)
       expect(adr['address'].length).to be 95
@@ -35,42 +35,42 @@ RSpec.describe RPC do
   end
 
   it "gets the balance of the current wallet" do
-    balance = RPC::Wallet.balance
+    balance = MoneroRPC::Wallet.balance
     expect(balance).to be_a(Money)
     expect(balance.fractional).to be_an(Integer)
     expect(balance.currency).to be_a(Money::Currency)
   end
 
   it "returns a formatted balance with dot as decimal separator" do
-    balance = RPC::Wallet.balance.format
+    balance = MoneroRPC::Wallet.balance.format
     expect(balance).to be_a(String)
     expect(balance).to include('.')
   end
 
   it "gets the unlocked balance" do
-    balance = RPC::Wallet.unlocked_balance
+    balance = MoneroRPC::Wallet.unlocked_balance
     expect(balance).to be_a(Money)
     expect(balance.fractional).to be_an(Integer)
     expect(balance.currency).to be_a(Money::Currency)
   end
 
   it "gets the balance and unlocked balance" do
-    balance = RPC::Wallet.getbalance
+    balance = MoneroRPC::Wallet.getbalance
     expect(balance['balance']).to be_an(Integer)
     expect(balance['unlocked_balance']).to be_an(Integer)
   end
 
   it "gets the current block height" do
-    height = RPC::Wallet.getheight
+    height = MoneroRPC::Wallet.getheight
     expect(height).to be_an(Integer)
   end
 
   # the wallet locks for approx 10 blocks so this test will fail if
   # balance is not yet unlocked
   it "sends XMR to a standard address" do
-    subaddress = RPC::Wallet.create_address "receiving_wallet"
+    subaddress = MoneroRPC::Wallet.create_address "receiving_wallet"
     amount = 20075
-    transfer = RPC::Transfer.create(subaddress['address'], amount)
+    transfer = MoneroRPC::Transfer.create(subaddress['address'], amount)
     expect(transfer['amount']).to eq(amount)
     expect(transfer['fee']).to be_an(Integer)
     expect(transfer['multisig_txset']).to be_empty
@@ -82,8 +82,8 @@ RSpec.describe RPC do
   end
 
   it "sends XMR to multiple recipients" do
-    subaddress1 = RPC::Wallet.create_address "receiving_wallet"
-    subaddress2 = RPC::Wallet.create_address "receiving_wallet2"
+    subaddress1 = MoneroRPC::Wallet.create_address "receiving_wallet"
+    subaddress2 = MoneroRPC::Wallet.create_address "receiving_wallet2"
     amount1 = 20075
     amount2 = 30075
 
@@ -92,7 +92,7 @@ RSpec.describe RPC do
       { address: subaddress2['address'], amount: amount2 }
     ]
 
-    transfer = RPC::Transfer.send_bulk(recipients)
+    transfer = MoneroRPC::Transfer.send_bulk(recipients)
 
     expect(transfer['amount']).to eq(amount1+amount2)
     expect(transfer['fee']).to be_an(Integer)

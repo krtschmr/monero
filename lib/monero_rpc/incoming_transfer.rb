@@ -1,4 +1,4 @@
-module RPC
+module MoneroRPC
   class IncomingTransfer
 
     attr_accessor :address, :amount, :double_spend_seen, :fee, :height, :note,

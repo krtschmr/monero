@@ -48,21 +48,21 @@ Monero Ruby Client is very easy to use. Full documentation of RPC Client: https:
 ---
 Get the current address
 ```ruby
-RPC::Wallet.address
+::Wallet.address
 => "9wm6oNA5nP3LnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjTDpKXAE"
 ```
 
 ---
 Create a new subaddress with a label
 ```ruby
-RPC::Wallet.create_address "family savings"
+MoneroRPC::Wallet.create_address "family savings"
 => {"address"=>"BZFWM5MrhK64DD5TH1JVxR4JbuQpmRSFKi4SHQD2TrSrDFU8AK16YSjN7K8WSfjAfnZeJeskBtkgr73LbPZc4vMbQr3YvHj", "address_index"=>1}
 ```
 
 ---
 Create a new address for a payment (integrated address)
 ```ruby
-RPC::Wallet.make_integrated_address
+MoneroRPC::Wallet.make_integrated_address
 => {"integrated_address"=>"A7TmpAyaPeZLnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjfufSYUchQ8hH2R272H",
     "payment_id"=>"9d985c985ce58a8e"}
 ```
@@ -70,45 +70,45 @@ RPC::Wallet.make_integrated_address
 ---
 Get a list of all addresses of your wallet
 ```ruby
-RPC::Wallet.get_addresses
+MoneroRPC::Wallet.get_addresses
 ```
 
 ---
 To get the balance of the current wallet (we use the gem 'money')
 ```ruby
-RPC::Wallet.balance
+MoneroRPC::Wallet.balance
 # returns an ::XMR object which is just a shortcut for ::Money(amount, :xmr)
 => <Money fractional:9980629640000 currency:XMR>
 
-RPC::Wallet.balance.format
+MoneroRPC::Wallet.balance.format
 => "9.980629640000 XMR"
 ```
 
 To get the unlocked balance, which is currently available
 ```ruby
-RPC::Wallet.unlocked_balance
+MoneroRPC::Wallet.unlocked_balance
 => <Money fractional:10000 currency:XMR>
 ```
 
 To get both combined
 ```ruby
-RPC::Wallet.getbalance
+MoneroRPC::Wallet.getbalance
 => {"balance"=>9961213880000, "unlocked_balance"=>10000}
 ```
 
 ---
 To get the current block height
 ```ruby
-RPC::Wallet.getheight
+MoneroRPC::Wallet.getheight
 => 1008032
 ```
 
 ---
-Send XMR to an address via `RPC::Transfer.create`. If successful you will get the transaction details. If not successful you'll get returned nil.
+Send XMR to an address via `MoneroRPC::Transfer.create`. If successful you will get the transaction details. If not successful you'll get returned nil.
 
 ```ruby
 amount= 20075 # in atomic units; 1000000000000 == 1.0 XMR
-RPC::Transfer.create("A7TmpAyaPeZLnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjfwGRvbCHYCZAaKSzDx", amount)
+MoneroRPC::Transfer.create("A7TmpAyaPeZLnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjfwGRvbCHYCZAaKSzDx", amount)
 => {"fee"=>19415760000,
     "tx_blob"=>"020001020005bbcf0896e3.......
 ```
@@ -136,18 +136,18 @@ recipients = [
   {address:"A7TmpAyaPeZLnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjfrgPgAEasYGSVhUdwe" amount: 442130000}
 ]
 
-RPC::Transfer.send_bulk(recipients, options)
+MoneroRPC::Transfer.send_bulk(recipients, options)
 ```
 
 ---
 To get a list of transfers you call `get_transfers(args)`. Options are `in (true)`, `out (false)`, `pending (true)`, `failed (false)`, `pool (true)`, `filter_by_height (false)`, `min_height` and `max_height`
 
 ---
-To get all incoming transfers use `get_all_incoming_transfers(args)`. Args can be `min_height` and `max_height` to filter accordingly. Result is a list of `RPC::IncomingTransfer` objects.
+To get all incoming transfers use `get_all_incoming_transfers(args)`. Args can be `min_height` and `max_height` to filter accordingly. Result is a list of `MoneroRPC::IncomingTransfer` objects.
 
 ```ruby
-incomes = RPC::Wallet.get_all_incoming_transfers(min_height: 1087400)
-=> [#<RPC::IncomingTransfer:0x000000036d3ca8 ...>, #<RPC::IncomingTransfer:0x000000036d38c0 ...>, #<RPC::IncomingTransfer:0x000000036d3258 ...>, #<RPC::IncomingTransfer:0x000000036d2c90 ...> ....
+incomes = MoneroRPC::Wallet.get_all_incoming_transfers(min_height: 1087400)
+=> [#<MoneroRPC::IncomingTransfer:0x000000036d3ca8 ...>, #<MoneroRPC::IncomingTransfer:0x000000036d38c0 ...>, #<MoneroRPC::IncomingTransfer:0x000000036d3258 ...>, #<MoneroRPC::IncomingTransfer:0x000000036d2c90 ...> ....
 
 incomes.first.confirmed?
 => false

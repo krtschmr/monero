@@ -1,15 +1,15 @@
 require 'money'
-require 'rpc/config'
-require 'rpc/payment'
-require 'rpc/client'
-require 'rpc/version'
-require 'rpc/wallet'
-require 'rpc/transfer'
-require 'rpc/incoming_transfer'
+require 'monero_rpc/config'
+require 'monero_rpc/payment'
+require 'monero_rpc/client'
+require 'monero_rpc/version'
+require 'monero_rpc/wallet'
+require 'monero_rpc/transfer'
+require 'monero_rpc/incoming_transfer'
 
-module RPC
+module MoneroRPC
   def self.config
-    @@config ||= RPC::Config.instance
+    @@config ||= MoneroRPC::Config.instance
   end
 end
 

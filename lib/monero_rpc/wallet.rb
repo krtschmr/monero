@@ -1,21 +1,21 @@
-module RPC
+module MoneroRPC
   class Wallet
 
     def self.create_address(label="")
-      RPC::Client.request("create_address", label: label)
+      MoneroRPC::Client.request("create_address", label: label)
     end
 
     def self.get_address
-      get_address(0, [0])["address"]
+      get_addresses(0, [0]).first["address"]
     end
     def self.address; getaddress; end
 
     def self.get_addresses(account_index=0, address_index=[0])
-      RPC::Client.request("get_address", {account_index: account_index, address_index: address_index})["addresses"]
+      MoneroRPC::Client.request("get_address", {account_index: account_index, address_index: address_index})["addresses"]
     end
 
     def self.getbalance
-      RPC::Client.request("getbalance")
+      MoneroRPC::Client.request("getbalance")
     end
 
     def self.balance
@@ -27,16 +27,16 @@ module RPC
     end
 
     def self.getaddress
-      RPC::Client.request("getaddress")["address"]
+      MoneroRPC::Client.request("getaddress")["address"]
     end
 
     def self.getheight
-      RPC::Client.request("getheight")["height"]
+      MoneroRPC::Client.request("getheight")["height"]
     end
 
     def self.query_key(type)
       raise ArgumentError unless ["mnemonic", "view_key"].include?(type.to_s)
-      RPC::Client.request("query_key", {key_type: type})["key"]
+      MoneroRPC::Client.request("query_key", {key_type: type})["key"]
     end
     def self.view_key; query_key(:view_key); end
     def self.mnemonic_seed; query_key(:mnemonic); end
@@ -45,28 +45,28 @@ module RPC
     def self.make_integrated_address(payment_id = "")
       # TODO
       # Check if payment_id is correct format
-      RPC::Client.request("make_integrated_address", {payment_id: payment_id})
+      MoneroRPC::Client.request("make_integrated_address", {payment_id: payment_id})
     end
 
     def self.split_integrated_address(address)
-      RPC::Client.request("split_integrated_address", {integrated_address: address})
+      MoneroRPC::Client.request("split_integrated_address", {integrated_address: address})
     end
 
     def self.incoming_transfers(type)
       raise ArgumentError unless ["all", "available", "unavailable"].include?(type.to_s)
-      json = RPC::Client.request("incoming_transfers", {transfer_type: type})
+      json = MoneroRPC::Client.request("incoming_transfers", {transfer_type: type})
       json["transfers"] || []
     end
 
     def self.get_payments(payment_id)
-      payments = RPC::Client.request("get_payments", {payment_id: payment_id})["payments"] || []
+      payments = MoneroRPC::Client.request("get_payments", {payment_id: payment_id})["payments"] || []
       # TODO
-      # make it a RPC::Payment that hase a amount as XMR and confirmations (getheight - tx.block_height)
+      # make it a MoneroRPC::Payment that hase a amount as XMR and confirmations (getheight - tx.block_height)
       payments.map{|x| Payment.from_raw(x) }
     end
 
     def self.get_bulk_payments(payment_ids, min_block_height)
-      payments = RPC::Client.request("get_bulk_payments", {"payment_ids": payment_ids, "min_block_height": min_block_height})
+      payments = MoneroRPC::Client.request("get_bulk_payments", {"payment_ids": payment_ids, "min_block_height": min_block_height})
       return payments
     end
 
@@ -93,9 +93,9 @@ module RPC
       options[:max_height] = max_height if max_height > min_height
 
       h = Hash.new
-      json = RPC::Client.request("get_transfers", options)
+      json = MoneroRPC::Client.request("get_transfers", options)
       json.map{|k, v|
-        h[k] = v.collect{|transfer| Module.const_get((RPC.config.transfer_clazz || "RPC::IncomingTransfer")).new(transfer) }
+        h[k] = v.collect{|transfer| Module.const_get((MoneroRPC.config.transfer_clazz || "MoneroRPC::IncomingTransfer")).new(transfer) }
       }
       return h
     end
@@ -109,7 +109,7 @@ module RPC
     end
 
     def self.get_transfer_by_txid(txid)
-      RPC::Client.request("get_transfer_by_txid", {txid: txid })
+      MoneroRPC::Client.request("get_transfer_by_txid", {txid: txid })
     end
 
     # creates a wallet and uses it
@@ -118,14 +118,14 @@ module RPC
       # TODO
       # language correct format?
       options = { filename: filename, password: password, language: language }
-      !! RPC::Client.request("create_wallet", options)
+      !! MoneroRPC::Client.request("create_wallet", options)
     end
     singleton_class.send(:alias_method, :create, :create_wallet)
 
     # returns current balance if open successfull
     def self.open_wallet(filename, password="")
       options = { filename: filename, password: password}
-      if RPC::Client.request("open_wallet", options)
+      if MoneroRPC::Client.request("open_wallet", options)
         balance
       else
         false
@@ -133,9 +133,9 @@ module RPC
     end
     singleton_class.send(:alias_method, :open, :open_wallet)
 
-    # stops current RPC process!
+    # stops current MoneroRPC process!
     def self.stop_wallet
-      RPC::Client.close!
+      MoneroRPC::Client.close!
     end
     singleton_class.send(:alias_method, :close, :stop_wallet)
 
