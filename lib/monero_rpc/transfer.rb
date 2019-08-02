@@ -22,34 +22,29 @@
 # get_tx_hex - boolean; Return the transaction as hex string after sending
 
 
-module MoneroRPC
-  # => {"integrated_address"=>"A7TmpAyaPeZLnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjfwGRvbCHYCZAaKSzDx", "payment_id"=>"c7e7146b3335aa54"}
-
-  class Transfer
-
-    def self.create(address, amount, args={})
-      send_bulk([address: address, amount: amount], args)
-    end
-
-    def self.send_bulk(destinations, args={})
-
-      mixin = args.fetch(:mixin, 4)
-      fee = args.fetch(:fee, 1) # ignored anyways
-      unlock_time = args.fetch(:unlock_time, 0)
-      payment_id = args.fetch(:payment_id, nil)
-      get_tx_key = args.fetch(:get_tx_key, true)
-      priority = args.fetch(:priority, 0)
-      do_not_relay = args.fetch(:do_not_relay, false)
-      get_tx_hex = args.fetch(:get_tx_hex, false)
-
-
-      options = {
-        destinations: destinations, fee: fee, mixin: mixin, unlock_time: unlock_time,
-        payment_id: payment_id, get_tx_key: get_tx_key, priority: priority, do_not_relay: do_not_relay, get_tx_hex: get_tx_hex
-      }
-
-      MoneroRPC::Client.request("transfer", options)
-    end
-
+module MoneroRPC::Transfer
+  def create_transfer(address, amount, args={})
+    send_bulk_transfer([address: address, amount: amount], args)
   end
+
+  def send_bulk_transfer(destinations, args={})
+
+    mixin = args.fetch(:mixin, 7)
+    fee = args.fetch(:fee, 1) # ignored anyways
+    unlock_time = args.fetch(:unlock_time, 0)
+    payment_id = args.fetch(:payment_id, nil)
+    get_tx_key = args.fetch(:get_tx_key, true)
+    priority = args.fetch(:priority, 0)
+    do_not_relay = args.fetch(:do_not_relay, false)
+    get_tx_hex = args.fetch(:get_tx_hex, false)
+
+
+    options = {
+      destinations: destinations, fee: fee, mixin: mixin, unlock_time: unlock_time,
+      payment_id: payment_id, get_tx_key: get_tx_key, priority: priority, do_not_relay: do_not_relay, get_tx_hex: get_tx_hex
+    }
+
+    request("transfer", options)
+  end
+
 end

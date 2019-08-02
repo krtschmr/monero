@@ -1,9 +1,9 @@
 module MoneroRPC
-  class IncomingTransfer
+  class TransferClass
 
     attr_accessor :address, :amount, :double_spend_seen, :fee, :height, :note,
       :payment_id, :subaddr_index, :timestamp, :txid, :type, :unlock_time,
-      :destinations, :confirmations, :suggested_confirmations_threshold
+      :destinations, :confirmations, :suggested_confirmations_threshold, :subaddr_indices
 
     def initialize(args={})
       args.each do |k,v|
@@ -19,5 +19,12 @@ module MoneroRPC
       height == 0
     end
 
+    def locked?
+      raise "TODO"
+    end
+
   end
 end
+
+class MoneroRPC::IncomingTransfer < MoneroRPC::TransferClass; end
+class MoneroRPC::OutgoingTransfer < MoneroRPC::TransferClass; end

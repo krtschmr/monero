@@ -1,16 +1,29 @@
 require 'money'
 require 'monero_rpc/config'
 require 'monero_rpc/payment'
-require 'monero_rpc/client'
-require 'monero_rpc/version'
 require 'monero_rpc/wallet'
+require 'monero_rpc/version'
 require 'monero_rpc/transfer'
-require 'monero_rpc/incoming_transfer'
+require 'monero_rpc/transfer_class'
+require 'monero_rpc/client'
 
 module MoneroRPC
   def self.config
     @@config ||= MoneroRPC::Config.instance
   end
+
+  def self.new(args={})
+    host     = args.fetch(:host,     MoneroRPC.config.host) || raise("missing host")
+    port     = args.fetch(:port,     MoneroRPC.config.port) || raise("missing port")
+    username = args.fetch(:username, MoneroRPC.config.username) || raise("missing username")
+    password = args.fetch(:password, MoneroRPC.config.password) || raise("missing password")
+    debug    = args.fetch(:debug,    MoneroRPC.config.debug)
+    in_transfer_clazz = args.fetch(:in_transfer_clazz, MoneroRPC.config.in_transfer_clazz)
+    out_transfer_clazz = args.fetch(:out_transfer_clazz, MoneroRPC.config.out_transfer_clazz)
+
+    Client.new(host: host, port: port, username: username, password: password, debug: debug, in_transfer_clazz: in_transfer_clazz, out_transfer_clazz: out_transfer_clazz)
+  end
+
 end
 
 Money::Currency.register({
