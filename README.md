@@ -1,3 +1,6 @@
+attention: version 0.0.12 had critical changes to this gem that will break all previous functionality. please upgrade, changing your code is very easy!massive Refactoring
+
+
 # Monero Ruby Client
 
 Ruby client to connect and use [Monero Wallet RPC](https://getmonero.org/resources/developer-guides/wallet-rpc.html).
