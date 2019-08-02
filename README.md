@@ -2,24 +2,26 @@
 
 Ruby client to connect and use [Monero Wallet RPC](https://getmonero.org/resources/developer-guides/wallet-rpc.html).
 
-*Tested against [v0.13.0.4 Beryllium Bullet](https://github.com/monero-project/monero/releases/tag/v0.13.0.4) without issues. Please contribute. If you want to send testnet transactions, please always send them back to https://dis.gratis*
+*Tested against [0.14.1.2 Boron Butterfly](https://web.getmonero.org/downloads/) without issues. Please contribute. If you want to send testnet transactions, please always send them back to https://dis.gratis or any other faucet*
 
 ---
 #### Disclaimer - before you start - *important notice!*
 To try out please make sure that you run your **monerod** and your **monero-wallet-rpc** with the `--stagenet` or `--testnet` option. Always use the stagenet or testnet to play around. Be careful with your wallet, you might lose coins if you try out on the real chain.
 
-- Stagenet Faucet: http://stagenet.xmr-tw.org:38085/
+- Stagenet Faucet: https://community.xmr.to/faucet/stagenet/
 - Testnet Faucet: https://dis.gratis/
 - Testnet Blockexplorer: https://testnet.xmrchain.com
+- in case the faucets are offline or empty just ask on reddit or in IRC #monero, #monero-dev or #monero-pools
 ---
 
 ## Installation
 For easy installation add `gem 'monero'` to your Gemfile or run `gem install monero`
 
 ## Preparation
-Start your daemon `./monerod --testnet`
+Start your daemon `./monerod --testnet` or `./monerod --stagenet`
 
 Start your RPC Client `./monero-wallet-rpc --testnet  --rpc-bind-port 28081 --rpc-bind-ip 127.0.0.1  --rpc-login username:password --log-level 4`
+
 
 - To open a wallet at start use `--wallet-file filename` and `--password pass`
 - In case you need to access the client from another machine, you need to set `--confirm-external-bind`.
@@ -33,36 +35,44 @@ xaviablaza to run monerod and the RPC client.
 ## Getting started
 
 ### Configuration
+You can predefine all variables via configuration. You don't need to do this.
 ```ruby
-RPC.config.host = "127.0.0.1"
-RPC.config.port = "18081"
-RPC.config.username = "username"
-RPC.config.password = "password"
-RPC.config.transfer_clazz = "MoneroTransfer" # you can set your own class to get incoming transfers as a model rather then a json
+
+MoneroRPC.config.host = "127.0.0.1"
+MoneroRPC.config.port = "18081"
+MoneroRPC.config.username = "username"
+MoneroRPC.config.password = "password"
+MoneroRPC.config.debug = true
+# If you call for transfers you already receive objects MoneroRPC::IncomingTransfer and MoneroRPC::OutgoingTransfer. However, you can use your own classes.
+# MoneroRPC.config.in_transfer_clazz = "MyOwnClassForIncomingTransfers"
+# MoneroRPC.config.out_transfer_clazz = "OutgoinMoneroTransfer"
 ```
 
 ### Usage
 
 Monero Ruby Client is very easy to use. Full documentation of RPC Client: https://getmonero.org/resources/developer-guides/wallet-rpc.html#transfer
 
+just crate a new instance
+`$monero_rpc = MoneroRPC.new(host: "192.168.0.202", port: "28081", username: "username", password: "password")`
+
 ---
 Get the current address
 ```ruby
-::Wallet.address
+$monero_rpc.address
 => "9wm6oNA5nP3LnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjTDpKXAE"
 ```
 
 ---
-Create a new subaddress with a label
+Create a new subaddress with a label (label is optional)
 ```ruby
-MoneroRPC::Wallet.create_address "family savings"
+$monero_rpc.create_address "family savings"
 => {"address"=>"BZFWM5MrhK64DD5TH1JVxR4JbuQpmRSFKi4SHQD2TrSrDFU8AK16YSjN7K8WSfjAfnZeJeskBtkgr73LbPZc4vMbQr3YvHj", "address_index"=>1}
 ```
 
 ---
 Create a new address for a payment (integrated address)
 ```ruby
-MoneroRPC::Wallet.make_integrated_address
+$monero_rpc.make_integrated_address
 => {"integrated_address"=>"A7TmpAyaPeZLnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjfufSYUchQ8hH2R272H",
     "payment_id"=>"9d985c985ce58a8e"}
 ```
@@ -70,45 +80,45 @@ MoneroRPC::Wallet.make_integrated_address
 ---
 Get a list of all addresses of your wallet
 ```ruby
-MoneroRPC::Wallet.get_addresses
+$monero_rpc.get_addresses
 ```
 
 ---
 To get the balance of the current wallet (we use the gem 'money')
 ```ruby
-MoneroRPC::Wallet.balance
+$monero_rpc.balance
 # returns an ::XMR object which is just a shortcut for ::Money(amount, :xmr)
 => <Money fractional:9980629640000 currency:XMR>
 
-MoneroRPC::Wallet.balance.format
+$monero_rpc.balance.format
 => "9.980629640000 XMR"
 ```
 
 To get the unlocked balance, which is currently available
 ```ruby
-MoneroRPC::Wallet.unlocked_balance
+$monero_rpc.unlocked_balance
 => <Money fractional:10000 currency:XMR>
 ```
 
 To get both combined
 ```ruby
-MoneroRPC::Wallet.getbalance
+$monero_rpc.getbalance
 => {"balance"=>9961213880000, "unlocked_balance"=>10000}
 ```
 
 ---
 To get the current block height
 ```ruby
-MoneroRPC::Wallet.getheight
+$monero_rpc.getheight
 => 1008032
 ```
 
 ---
-Send XMR to an address via `MoneroRPC::Transfer.create`. If successful you will get the transaction details. If not successful you'll get returned nil.
+Send XMR to an address via `$monero_rpc.create_transfer`. If successful you will get the transaction details. If not successful you'll get returned nil.
 
 ```ruby
 amount= 20075 # in atomic units; 1000000000000 == 1.0 XMR
-MoneroRPC::Transfer.create("A7TmpAyaPeZLnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjfwGRvbCHYCZAaKSzDx", amount)
+$monero_rpc.create_transfer("A7TmpAyaPeZLnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjfwGRvbCHYCZAaKSzDx", amount)
 => {"fee"=>19415760000,
     "tx_blob"=>"020001020005bbcf0896e3.......
 ```
@@ -136,7 +146,7 @@ recipients = [
   {address:"A7TmpAyaPeZLnugTKRSwGJhW4vnYv8RAVdRvYyvbistbHUnojyTHyHcYpbZvbTZHDsi4rF1EK5TiYgnCN6FWM9HjfrgPgAEasYGSVhUdwe" amount: 442130000}
 ]
 
-MoneroRPC::Transfer.send_bulk(recipients, options)
+$monero_rpc.send_bulk_transfer(recipients, options)
 ```
 
 ---
@@ -146,7 +156,7 @@ To get a list of transfers you call `get_transfers(args)`. Options are `in (true
 To get all incoming transfers use `get_all_incoming_transfers(args)`. Args can be `min_height` and `max_height` to filter accordingly. Result is a list of `MoneroRPC::IncomingTransfer` objects.
 
 ```ruby
-incomes = MoneroRPC::Wallet.get_all_incoming_transfers(min_height: 1087400)
+incomes = $monero_rpc.get_all_incoming_transfers(min_height: 1087400)
 => [#<MoneroRPC::IncomingTransfer:0x000000036d3ca8 ...>, #<MoneroRPC::IncomingTransfer:0x000000036d38c0 ...>, #<MoneroRPC::IncomingTransfer:0x000000036d3258 ...>, #<MoneroRPC::IncomingTransfer:0x000000036d2c90 ...> ....
 
 incomes.first.confirmed?
@@ -165,10 +175,15 @@ incomes.first.amount
 => 0.40123
 ```
 
-You can use your own custom class by using the config `RPC.config.transfer_clazz = "MyCustomMoneroTransfer"`
+You can use your own custom class by using the config `MoneroRPC.config.in_transfer_clazz = "MyCustomMoneroTransfer"`
+
+The same works for outgoing transfers where we have "MoneroRPC::OutgoingTransfer"
+
+    $monero_rpc.get_all_outgoing_transfers
+
 
 ---
-For a specific Transfer simply call `get_transfer_by_txid(tx_id)`
+For a specific Transfer simply call `$monero_rpc.get_transfer_by_txid(tx_id)`
 
 ---
 ## Running tests
