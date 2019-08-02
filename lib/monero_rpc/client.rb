@@ -2,16 +2,16 @@ class MoneroRPC::Client
   include MoneroRPC::Wallet
   include MoneroRPC::Transfer
 
-  attr_accessor :host, :port, :username, :password, :debug, :in_transfer_clazz, :out_transfer_clazz
+  attr_reader :host, :port, :username, :password, :debug, :in_transfer_clazz, :out_transfer_clazz
 
   def initialize(args= {})
-    self.host     = args.fetch(:host,     MoneroRPC.config.host)
-    self.port     = args.fetch(:port,     MoneroRPC.config.port)
-    self.username = args.fetch(:username, MoneroRPC.config.username)
-    self.password = args.fetch(:password, MoneroRPC.config.password)
-    self.debug    = args.fetch(:debug,    MoneroRPC.config.debug)
-    self.in_transfer_clazz = args.fetch(:in_transfer_clazz, MoneroRPC.config.in_transfer_clazz || "MoneroRPC::IncomingTransfer")
-    self.out_transfer_clazz = args.fetch(:out_transfer_clazz, MoneroRPC.config.out_transfer_clazz || "MoneroRPC::OutgoingTransfer")
+    @host     = args.fetch(:host,     MoneroRPC.config.host)
+    @port     = args.fetch(:port,     MoneroRPC.config.port)
+    @username = args.fetch(:username, MoneroRPC.config.username)
+    @password = args.fetch(:password, MoneroRPC.config.password)
+    @debug    = args.fetch(:debug,    MoneroRPC.config.debug)
+    @in_transfer_clazz = args.fetch(:in_transfer_clazz, MoneroRPC.config.in_transfer_clazz || "MoneroRPC::IncomingTransfer")
+    @out_transfer_clazz = args.fetch(:out_transfer_clazz, MoneroRPC.config.out_transfer_clazz || "MoneroRPC::OutgoingTransfer")
   end
 
   def close!

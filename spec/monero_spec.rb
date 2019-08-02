@@ -106,4 +106,11 @@ RSpec.describe MoneroRPC do
     expect(transfer['unsigned_txset']).to be_empty
   end
 
+  it "does not change configuration once instantiated" do
+    expect(monero_rpc).not_to respond_to(:host=)
+    expect(monero_rpc).not_to respond_to(:port=)
+    expect(monero_rpc).not_to respond_to(:username=)
+    expect(monero_rpc).not_to respond_to(:password=)
+  end
+
 end
