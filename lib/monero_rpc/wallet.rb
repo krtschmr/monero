@@ -13,6 +13,14 @@ module MoneroRPC::Wallet
     request("get_address", {account_index: account_index, address_index: address_index})["addresses"]
   end
 
+  def valid_address?(address)
+    begin
+      request("validate_address", {address: address}).fetch("valid")
+    rescue
+      false
+    end
+  end
+
   def getbalance
     request("getbalance")
   end
