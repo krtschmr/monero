@@ -2,6 +2,9 @@ class MoneroRPC::Client
   include MoneroRPC::Wallet
   include MoneroRPC::Transfer
 
+
+
+
   attr_reader :host, :port, :username, :password, :debug, :in_transfer_clazz, :out_transfer_clazz
 
   def initialize(args= {})
@@ -31,7 +34,11 @@ class MoneroRPC::Client
     args << " -H 'Content-Type: application/json'"
 
     p "curl #{args}" if debug
-    json = JSON.parse(`curl #{args}`)
+    begin
+      json = JSON.parse(`curl #{args}`)
+    rescue
+      raise MoneroRPC::ConnectionError
+    end
 
     # Error handling
     if json["error"]

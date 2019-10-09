@@ -8,6 +8,8 @@ require 'monero_rpc/transfer_class'
 require 'monero_rpc/client'
 
 module MoneroRPC
+  class ConnectionError < StandardError; end
+
   def self.config
     @@config ||= MoneroRPC::Config.instance
   end

@@ -14,11 +14,7 @@ module MoneroRPC::Wallet
   end
 
   def valid_address?(address)
-    begin
-      request("validate_address", {address: address}).fetch("valid")
-    rescue
-      false
-    end
+    request("validate_address", {address: address}).fetch("valid") rescue false    
   end
 
   def getbalance
