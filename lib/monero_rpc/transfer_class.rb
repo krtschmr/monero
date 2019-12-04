@@ -1,9 +1,10 @@
 module MoneroRPC
   class TransferClass
 
-    attr_accessor :address, :amount, :double_spend_seen, :fee, :height, :note,
-      :payment_id, :subaddr_index, :timestamp, :txid, :type, :unlock_time,
-      :destinations, :confirmations, :suggested_confirmations_threshold, :subaddr_indices
+    attr_accessor :address, :amount, :double_spend_seen, :fee, :height, :locked,
+      :note, :payment_id, :subaddr_index, :timestamp, :txid, :type,
+      :unlock_time, :destinations, :confirmations,
+      :suggested_confirmations_threshold, :subaddr_indices
 
     def initialize(args={})
       args.each do |k,v|
